@@ -1,0 +1,13 @@
+{
+  "schema_version": 3,
+  "spelling": [
+    {
+      "from": "模擬",
+      "to": ["類比"],
+      "type": "cross_strait",
+      "disabled": true,
+      "context": "fifth-move 誤報：「客戶模擬器」是 simulate，不是 analog。規則自己的說明也寫模擬器為正確 tw 用法；關掉比較安全"
+    }
+  ],
+  "case": []
+}

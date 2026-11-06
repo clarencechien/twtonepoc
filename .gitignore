@@ -1,0 +1,4 @@
+zhtw-mcp
+*.json
+!overrides.json
+__pycache__/
