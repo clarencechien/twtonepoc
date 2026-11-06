@@ -12,7 +12,18 @@
 
 一篇 4,500 字的報告跑完 0.3 秒。
 
-## 用法
+## 快速模式（日常用這個）
+
+```bash
+python3 quick.py 報告.md          # 只講嚴重的；唯一候選的用詞自動改到 報告.tw.md，原檔不動
+python3 quick.py 報告.md --gate   # 有「要改」就 exit 1，接發佈前關卡
+python3 quick.py 報告.md --verbose
+```
+
+門檻來自 `out/baseline-pre2022.json`：**超過台灣基準語料任何一篇的最大值才叫嚴重**，超過 p75 一行帶過，其餘不提。
+fifth-move 跑出來只剩一項要改（對舉 6 句），用詞自動修 2 處，其他 30 筆全部略過。
+
+## 完整用法
 
 ```bash
 # 1. 建 zhtw-mcp（會從 GitHub 抓 OpenCC 字典，約 2 分鐘）
