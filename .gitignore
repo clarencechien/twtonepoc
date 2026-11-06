@@ -2,3 +2,6 @@ zhtw-mcp
 *.json
 !overrides.json
 __pycache__/
+corpus/*.md
+!corpus/SOURCES.md
+!out/baseline-*.json

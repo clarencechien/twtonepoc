@@ -1,0 +1,270 @@
+{
+ "baseline": {
+  "contrast": {
+   "median": 0.0,
+   "p75": 0.0,
+   "max": 0.53
+  },
+  "colon_conclusion": {
+   "median": 0.0,
+   "p75": 0.0,
+   "max": 0.47
+  },
+  "dunhao_run": {
+   "median": 1.03,
+   "p75": 2.07,
+   "max": 2.94
+  },
+  "bridge_opener": {
+   "median": 0.0,
+   "p75": 0.0,
+   "max": 0.47
+  },
+  "emdash": {
+   "median": 0.0,
+   "p75": 0.0,
+   "max": 0.4
+  },
+  "semicolon": {
+   "median": 0.47,
+   "p75": 1.4,
+   "max": 2.83
+  },
+  "x_numbers": {
+   "median": 4.13,
+   "p75": 7.86,
+   "max": 33.93
+  },
+  "x_connectives": {
+   "median": 0.0,
+   "p75": 0.23,
+   "max": 1.96
+  },
+  "x_yiweizhe": {
+   "median": 0.0,
+   "p75": 0.0,
+   "max": 0.0
+  },
+  "sentence_cv": {
+   "median": 0.6,
+   "p75": 0.61,
+   "max": 0.8
+  },
+  "headings_per_k": {
+   "median": 1.62,
+   "p75": 2.6,
+   "max": 3.92
+  },
+  "_n": 11,
+  "_han_total": 25384,
+  "_files": [
+   "inside-13500.md",
+   "inside-18177.md",
+   "ithome-152503.md",
+   "ithome-152505.md",
+   "ithome-154242.md",
+   "ithome-94524.md",
+   "ithome-95447.md",
+   "pansci-131585.md",
+   "pansci-168535.md",
+   "twreporter-digital-love.md",
+   "twreporter-netzdg.md"
+  ]
+ },
+ "rows": {
+  "inside-13500.md": {
+   "contrast": 0.4,
+   "colon_conclusion": 0.4,
+   "dunhao_run": 0.81,
+   "bridge_opener": 0.0,
+   "emdash": 0.4,
+   "semicolon": 1.21,
+   "x_numbers": 2.83,
+   "x_connectives": 0.0,
+   "x_yiweizhe": 0.0,
+   "x_numbered": 0.0,
+   "x_blacklist": 0.0,
+   "sentence_cv": 0.58,
+   "headings_per_k": 1.62,
+   "han": 2472
+  },
+  "inside-18177.md": {
+   "contrast": 0.0,
+   "colon_conclusion": 0.0,
+   "dunhao_run": 0.41,
+   "bridge_opener": 0.0,
+   "emdash": 0.0,
+   "semicolon": 0.0,
+   "x_numbers": 4.47,
+   "x_connectives": 0.0,
+   "x_yiweizhe": 0.0,
+   "x_numbered": 0.0,
+   "x_blacklist": 0.0,
+   "sentence_cv": 0.6,
+   "headings_per_k": 2.84,
+   "han": 2461
+  },
+  "ithome-152503.md": {
+   "contrast": 0.0,
+   "colon_conclusion": 0.0,
+   "dunhao_run": 2.25,
+   "bridge_opener": 0.0,
+   "emdash": 0.0,
+   "semicolon": 0.45,
+   "x_numbers": 3.61,
+   "x_connectives": 0.0,
+   "x_yiweizhe": 0.0,
+   "x_numbered": 0.0,
+   "x_blacklist": 0.0,
+   "sentence_cv": 0.8,
+   "headings_per_k": 1.8,
+   "han": 2219
+  },
+  "ithome-152505.md": {
+   "contrast": 0.0,
+   "colon_conclusion": 0.0,
+   "dunhao_run": 0.47,
+   "bridge_opener": 0.47,
+   "emdash": 0.0,
+   "semicolon": 0.47,
+   "x_numbers": 33.93,
+   "x_connectives": 0.47,
+   "x_yiweizhe": 0.0,
+   "x_numbered": 0.0,
+   "x_blacklist": 0.0,
+   "sentence_cv": 0.61,
+   "headings_per_k": 2.36,
+   "han": 2122
+  },
+  "ithome-154242.md": {
+   "contrast": 0.0,
+   "colon_conclusion": 0.47,
+   "dunhao_run": 1.89,
+   "bridge_opener": 0.0,
+   "emdash": 0.0,
+   "semicolon": 2.83,
+   "x_numbers": 2.36,
+   "x_connectives": 0.47,
+   "x_yiweizhe": 0.0,
+   "x_numbered": 0.0,
+   "x_blacklist": 0.0,
+   "sentence_cv": 0.5,
+   "headings_per_k": 3.31,
+   "han": 2117
+  },
+  "ithome-94524.md": {
+   "contrast": 0.0,
+   "colon_conclusion": 0.0,
+   "dunhao_run": 1.03,
+   "bridge_opener": 0.0,
+   "emdash": 0.0,
+   "semicolon": 0.0,
+   "x_numbers": 4.13,
+   "x_connectives": 0.0,
+   "x_yiweizhe": 0.0,
+   "x_numbered": 0.0,
+   "x_blacklist": 0.0,
+   "sentence_cv": 0.6,
+   "headings_per_k": 1.03,
+   "han": 968
+  },
+  "ithome-95447.md": {
+   "contrast": 0.0,
+   "colon_conclusion": 0.0,
+   "dunhao_run": 0.98,
+   "bridge_opener": 0.0,
+   "emdash": 0.0,
+   "semicolon": 0.0,
+   "x_numbers": 3.92,
+   "x_connectives": 0.0,
+   "x_yiweizhe": 0.0,
+   "x_numbered": 0.0,
+   "x_blacklist": 0.0,
+   "sentence_cv": 0.56,
+   "headings_per_k": 0.98,
+   "han": 1020
+  },
+  "pansci-131585.md": {
+   "contrast": 0.53,
+   "colon_conclusion": 0.0,
+   "dunhao_run": 0.53,
+   "bridge_opener": 0.0,
+   "emdash": 0.0,
+   "semicolon": 1.59,
+   "x_numbers": 2.65,
+   "x_connectives": 0.0,
+   "x_yiweizhe": 0.0,
+   "x_numbered": 0.0,
+   "x_blacklist": 0.0,
+   "sentence_cv": 0.57,
+   "headings_per_k": 1.59,
+   "han": 1887
+  },
+  "pansci-168535.md": {
+   "contrast": 0.0,
+   "colon_conclusion": 0.0,
+   "dunhao_run": 2.94,
+   "bridge_opener": 0.0,
+   "emdash": 0.0,
+   "semicolon": 0.98,
+   "x_numbers": 7.84,
+   "x_connectives": 1.96,
+   "x_yiweizhe": 0.0,
+   "x_numbered": 0.0,
+   "x_blacklist": 0.0,
+   "sentence_cv": 0.71,
+   "headings_per_k": 3.92,
+   "han": 1020
+  },
+  "twreporter-digital-love.md": {
+   "contrast": 0.0,
+   "colon_conclusion": 0.0,
+   "dunhao_run": 2.65,
+   "bridge_opener": 0.0,
+   "emdash": 0.0,
+   "semicolon": 2.46,
+   "x_numbers": 14.0,
+   "x_connectives": 0.0,
+   "x_yiweizhe": 0.0,
+   "x_numbered": 0.0,
+   "x_blacklist": 0.0,
+   "sentence_cv": 0.57,
+   "headings_per_k": 1.32,
+   "han": 5287
+  },
+  "twreporter-netzdg.md": {
+   "contrast": 0.0,
+   "colon_conclusion": 0.0,
+   "dunhao_run": 1.31,
+   "bridge_opener": 0.0,
+   "emdash": 0.0,
+   "semicolon": 0.26,
+   "x_numbers": 7.87,
+   "x_connectives": 0.0,
+   "x_yiweizhe": 0.0,
+   "x_numbered": 0.0,
+   "x_blacklist": 0.0,
+   "sentence_cv": 0.62,
+   "headings_per_k": 1.31,
+   "han": 3811
+  }
+ },
+ "targets": {
+  "fifth-move.md": {
+   "contrast": 1.31,
+   "colon_conclusion": 0.0,
+   "dunhao_run": 2.84,
+   "bridge_opener": 0.0,
+   "emdash": 0.0,
+   "semicolon": 2.62,
+   "x_numbers": 8.08,
+   "x_connectives": 0.0,
+   "x_yiweizhe": 0.0,
+   "x_numbered": 0.0,
+   "x_blacklist": 0.0,
+   "sentence_cv": 0.69,
+   "headings_per_k": 4.37,
+   "han": 4577
+  }
+ }
+}
