@@ -25,7 +25,10 @@ def pct(xs, p):
 
 args = [a for i, a in enumerate(sys.argv[1:], 1) if not a.startswith("--") and not sys.argv[i-1].startswith("--")]
 corpus_dir, targets = args[0], args[1:]
-files = sorted(glob.glob(os.path.join(corpus_dir, "*.md")))
+files = [f for f in sorted(glob.glob(os.path.join(corpus_dir, "*.md"))) if os.path.basename(f) != "SOURCES.md"]
+if not files:
+    sys.exit(f"{corpus_dir} 裡沒有語料。全文因版權不入庫；照 corpus/SOURCES.md 的 URL 抓回存成 .md 再跑。"
+             "\n現成的基準值在 out/baseline-pre2022.json，quick.py 直接用那份。")
 rows = {os.path.basename(f): run(f) for f in files}
 keys = ["contrast", "colon_conclusion", "dunhao_run", "bridge_opener", "emdash", "semicolon",
         "x_numbers", "x_connectives", "x_yiweizhe", "sentence_cv", "headings_per_k"]

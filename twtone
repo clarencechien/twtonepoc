@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+# twtone：繁中報告的零 token 檢查。預設只講嚴重的。
+#   ./twtone 報告.md            快速模式（quick.py）
+#   ./twtone 報告.md --gate     有嚴重項就 exit 1
+#   ./twtone 報告.md --full     完整報告（run.sh：zhtw-mcp + twtone 全部命中）
+#   ./twtone --baseline 報告.md 跟台灣基準語料逐項比
+set -euo pipefail
+HERE="$(cd "$(dirname "$0")" && pwd)"
+[ -x "$HERE/zhtw-mcp" ] || "$HERE/setup.sh" >&2
+case "${1:-}" in
+  --baseline) shift; exec python3 "$HERE/baseline.py" "$HERE/corpus" "$@" ;;
+  ""|-h|--help) exec python3 "$HERE/quick.py" ;;
+esac
+if [[ " $* " == *" --full "* ]]; then
+  set -- "${@/--full/}"
+  exec "$HERE/run.sh" "$@"
+fi
+exec python3 "$HERE/quick.py" "$@"

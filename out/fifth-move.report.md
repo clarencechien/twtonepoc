@@ -1,4 +1,4 @@
-# 檢查報告 · fifth-move.md
+# 檢查報告 · fixtures/fifth-move.md
 
 ## 一、zhtw-mcp（用詞／標點／翻譯腔）
 - 總計 19 筆：warning 13、error 0

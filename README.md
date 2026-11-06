@@ -12,13 +12,20 @@
 
 一篇 4,500 字的報告跑完 0.3 秒。
 
-## 快速模式（日常用這個）
+## 安裝與日常用法
 
 ```bash
-python3 quick.py 報告.md          # 只講嚴重的；唯一候選的用詞自動改到 報告.tw.md，原檔不動
-python3 quick.py 報告.md --gate   # 有「要改」就 exit 1，接發佈前關卡
-python3 quick.py 報告.md --verbose
+git clone https://github.com/clarencechien/twtonepoc && cd twtonepoc
+./twtone 報告.md                 # 第一次會自動下載 zhtw-mcp 預編 binary（驗 SHA256）
+./twtone 報告.md --gate          # 有「要改」就 exit 1，接發佈前關卡
+./twtone 報告.md --verbose       # 注意級也展開
+./twtone 報告.md --full          # 完整報告（所有命中）
+./twtone --baseline 報告.md      # 跟台灣基準語料逐項比（需先把語料抓回 corpus/）
 ```
+
+純 Python 3 + 一個 Rust binary，沒有其他相依。在 Claude Code 裡用：repo 內附 `.claude/skills/twtone/`，
+開這個 repo 說「跑 twtone」或 `/twtone 檔案.md` 即可；要在別的專案用，把 `.claude/skills/twtone/` 複製過去，
+並把 `./twtone` 改成絕對路徑。
 
 門檻來自 `out/baseline-pre2022.json`：**超過台灣基準語料任何一篇的最大值才叫嚴重**，超過 p75 一行帶過，其餘不提。
 fifth-move 跑出來只剩一項要改（對舉 6 句），用詞自動修 2 處，其他 30 筆全部略過。
