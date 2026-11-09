@@ -16,7 +16,8 @@
 
 ```bash
 git clone https://github.com/clarencechien/twtonepoc && cd twtonepoc
-./twtone 報告.md                 # 第一次會自動下載 zhtw-mcp 預編 binary（驗 SHA256）
+./twtone 報告.md                 # 只報告；第一次會自動下載 zhtw-mcp 預編 binary（驗 SHA256）
+./twtone 報告.md --fix           # 另存 報告.tw.md，逐處列出實際改動（不預設，見 §8）
 ./twtone 報告.md --gate          # 有「要改」就 exit 1，接發佈前關卡
 ./twtone 報告.md --verbose       # 注意級也展開
 ./twtone 報告.md --full          # 完整報告（所有命中）
@@ -166,6 +167,19 @@ python3 baseline.py corpus/ fifth-move.md --save out/baseline-pre2022.json
 **沒借的**：38 種痕跡的全文 LLM 改寫流程。要用它，放在本 pipeline 第三步，只餵命中句。
 
 **順便發現**：SNF-09「優化了圖片載入邏輯，LCP 從 3.2 秒降到 1.8 秒」zhtw-mcp 仍標 優化→最佳化，與 speak-human-tw「技術語境放行」相左。`--fix=lexical_safe` 會改它；要保留 優化 就在 overrides.json 關掉。
+
+### 8. agent-arch-5 實測：zhtw-mcp 的自動修正不能預設開
+
+拿 2026-11-09 發佈的 [agent-arch-5](https://imitator.ai-apps.work/r/agent-arch-5)（6,566 漢字）跑：
+
+- **表層 AI tell 很乾淨**：對舉 0.30/千字（fifth-move 是 1.31），結論冒號、破折號、殘留皆 0。唯一超過台灣基準的是 1 處「這意味著」（L26，轉述 Steenberg 的段落）。頓號 2.28、分號 2.13 在 p75 與最大值之間，體裁使然，略過。
+- **`--fix=lexical_safe` 改出 12 處，至少 6 處是錯的**：
+  - 跨詞誤配：「多數組織」→「多陣列織」（兩處），規則 數組→陣列 吃到了 多「數組」織
+  - 語義錯：「一次性買斷」→「拋棄式買斷」（規則 一次性→拋棄式，domain 日常）
+  - 動到引號內：「少即是多：做出選擇」→「少即是多：選擇」（轉述 Steenberg 的原則名）
+  - 未列在報告的 info 級翻譯腔也被套用：安靜地→安靜、可能性→可能
+
+處置：`數組`、`一次性` 兩條在 overrides.json 關掉；`--fix` 改為 opt-in，並以檔案 diff 逐處列出實際改動，不再用 lint 清單假設「改了什麼」；tests.sh 加一條「--fix 不得產生已知誤殺」。
 
 ## 下一步
 

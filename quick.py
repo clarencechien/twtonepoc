@@ -6,12 +6,14 @@
   注意   = 超過 p75 但沒超過最大值           → 一行帶過，預設略過（--verbose 才展開）
   略過   = 其他
 
-用詞／標點交給 zhtw-mcp：唯一候選的兩岸用詞自動改到 <檔名>.tw.md（不動原檔），
-其他 zhtw-mcp 命中只給計數。
+用詞／標點交給 zhtw-mcp：預設只列建議。加 --fix 才把 zhtw-mcp 的 lexical_safe 修正寫進
+<檔名>.tw.md（不動原檔），並逐處列出實際改了什麼。
+（2026-11-09 agent-arch-5 實測：lexical_safe 會跨詞匹配「多數組織→多陣列織」，
+ 也會順手套用 info 級翻譯腔規則刪掉「地」「性」，所以不再預設開啟。）
 
 用法：
-    python3 quick.py 報告.md              # 報告 + 自動修一份副本
-    python3 quick.py 報告.md --no-fix     # 只報告
+    python3 quick.py 報告.md              # 只報告（預設）
+    python3 quick.py 報告.md --fix        # 另存修正副本，列出每一處實際改動
     python3 quick.py 報告.md --verbose    # 連「注意」級也展開
     python3 quick.py 報告.md --gate       # 有「嚴重」就 exit 1（接 CI / 發佈前）
 """
@@ -80,7 +82,7 @@ def main(argv):
         print(__doc__); return 0
     path = argv[1]
     verbose = "--verbose" in argv
-    fix = "--no-fix" not in argv
+    fix = "--fix" in argv
     gate = "--gate" in argv
 
     rep = analyze(open(path, encoding="utf-8").read())
@@ -146,9 +148,9 @@ def main(argv):
         print(f"\n## 用詞（zhtw-mcp）")
         if lex:
             for i in lex:
-                print(f"  - L{i['line']}：{i['found']} → {i['suggestions'][0]}" + ("　✓ 已改進副本" if fixed else ""))
+                print(f"  - L{i['line']}：{i['found']} → {i['suggestions'][0]}（建議，你決定）")
         else:
-            print("  沒有可自動改的兩岸用詞。")
+            print("  沒有兩岸用詞建議。")
         if multi:
             print(f"  另 {len(multi)} 處用詞有多個候選，要人選：" + "、".join(f"L{i['line']} {i['found']}" for i in multi[:5]))
         if trans:
@@ -157,7 +159,19 @@ def main(argv):
                 for i in trans:
                     print(f"    - L{i['line']}：{i['found']}")
         if fixed:
-            print(f"\n修好用詞的副本：{fixed}（原檔未動）")
+            import difflib
+            a = open(path, encoding="utf-8").read().splitlines()
+            b = open(fixed, encoding="utf-8").read().splitlines()
+            changes = []
+            for n, (x, y) in enumerate(zip(a, b), 1):
+                if x == y:
+                    continue
+                for tag, i1, i2, j1, j2 in difflib.SequenceMatcher(None, x, y, autojunk=False).get_opcodes():
+                    if tag != "equal":
+                        changes.append(f"  - L{n}：…{x[max(0, i1-6):i2+6]}… → …{y[max(0, j1-6):j2+6]}…")
+            print(f"\n## 副本實際改動（{len(changes)} 處，逐一確認後再採用）")
+            print("\n".join(changes))
+            print(f"\n副本：{fixed}（原檔未動）")
     else:
         print("\n（找不到 zhtw-mcp binary，用詞層略過；設 ZHTW=/path/to/zhtw-mcp）")
 
