@@ -140,6 +140,33 @@ python3 baseline.py corpus/ fifth-move.md --save out/baseline-pre2022.json
 
 限制：11 篇是很小的樣本，中位數對稀有事件（對舉、冒號）不穩，所以主表用合併口徑。體裁也只是近似：專欄和報導不是「導讀」。要更準就擴到 30 篇以上，並補 2015–2022 的導讀／書評類原創文章。
 
+### 7. 對照 speak-human-tw（雷蒙三十，2026-07，MIT）
+
+[speak-human-tw](https://github.com/Raymondhou0917/speak-human-tw) 是繁中原生的去 AI 味 **skill**（LLM 改寫，38 種痕跡、6 步流程、SF/SNF 評測 42 條），對象是電子報、銷售頁、社群貼文等對外文案。跟本 repo 的關係：
+
+| | speak-human-tw | twtonepoc |
+|---|---|---|
+| 機制 | LLM 讀全文改寫（每次都花 token） | 規則先篩（0 token），LLM 只看命中句 |
+| 訊號依據 | 編輯經驗 + blader/humanizer，SF/SNF 用 LLM 判分 | lieflat 配對統計 + 台灣 2015–2022 語料基準 |
+| 對象 | 對外文案 | 報告／導讀 |
+| 改稿紀律 | 先列清單等確認、保護清單、不換湯、不代編、佔位標註 | 門檻＋分類，嚴重才列 |
+
+**一致的**：「不是 A 而是 B」整篇最多一次（它）vs 超過基準 0.53/千字才改（我們），同方向；最小改動、不重寫全文；保護數字與引文；`優化` 在技術語境放行。
+
+**衝突的**：它把「首先／其次／最後」列為「最好認的 AI 訊號之一」，lieflat 配對後 δ+0.02、台灣基準最大 1.96/千字（泛科學專欄照用），本 repo 維持 X 級。它的破折號規則「每 300–500 字 ≤1」在台灣語料下反而太鬆（基準 0.04/千字），不必借。
+
+**它糾正了我們一條**：lieflat 把「這意味著」列 X（簡中人類反而多），但台灣 11 篇語料 0 次，zhtw-mcp 與 speak-human-tw 都列為訊號。簡中結論不能直接搬到繁中，這條從 X 升為 B 級要改。
+
+**借進來的**：
+- 它的 SF/SNF 評測文本（合成、MIT）做成 `fixtures/sf.md`、`fixtures/snf.md`，`./tests.sh` 跑回歸：SNF 15 條全放行、SF 的對舉／殘留／破折號要擋下。
+- 第 30、37 種「工具／對話殘留」（`utm_source=chatgpt.com`、`citeturn0search`、「希望這對你有幫助」）做成 A 級：確定性、零誤殺、命中即改。
+- 第 9、16、21 種（立場真空、勸誡反問、公式化開場）做成 C 級只報告：台灣基準 0 次，但這三條沒有配對驗證，最多到注意級。
+- 改句三紀律（保護清單、不換湯、不代編）寫進 skill。
+
+**沒借的**：38 種痕跡的全文 LLM 改寫流程。要用它，放在本 pipeline 第三步，只餵命中句。
+
+**順便發現**：SNF-09「優化了圖片載入邏輯，LCP 從 3.2 秒降到 1.8 秒」zhtw-mcp 仍標 優化→最佳化，與 speak-human-tw「技術語境放行」相左。`--fix=lexical_safe` 會改它；要保留 優化 就在 overrides.json 關掉。
+
 ## 下一步
 
 1. `zhtw-mcp hook install` 掛成 Claude Code PostToolUse hook。

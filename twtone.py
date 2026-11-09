@@ -162,6 +162,39 @@ def analyze(src: str) -> dict:
         "AI 段間明確承接 98.9% vs 人類 95.2%；人類每 14 段跳一次新話題，AI 每 50 段一次",
         "只報告。不是每處都要刪，但連續多段用同一招就會「太順」。", kinds=("prose",)))
 
+    # ---- 繁中修正：lieflat 在簡中語料列 X（人類反而多），但台灣 2015–2022 語料 11 篇 0 次
+    sigs.append(regex_signal(
+        lines, "yiweizhe", "這意味著／這表明", "B",
+        r"這(?:也)?意味著|這表明|這說明了?",
+        "lieflat 簡中：人類反而多（X 級）；台灣基準 25,384 字 0 次；zhtw-mcp 與 speak-human-tw 皆列為訊號",
+        "台灣慣用「這表示／這代表」或直接講結論。簡中結論不適用於繁中，這條是本 repo 自己的基準推翻的。"))
+
+    # ---- 工具殘留（src:speak-human-tw 第 30、37 種）：確定性，零誤殺，命中即改
+    sigs.append(regex_signal(
+        lines, "residue", "AI 工具／對話殘留", "A",
+        r"utm_source=(?:chatgpt|openai|copilot|perplexity)[\w.]*|cite\s*turn\d+\w*|oai_citation|希望這對你有幫助|如果你需要我[^。！？\n]{0,12}|以下是(?:修改|清理|改寫)後的版本|好問題！|這真是一個(?:非常)?棒的問題",
+        "speak-human-tw SF-09／SF-20；不需要基準，出現就是殘留",
+        "直接刪；連結本體保留。"))
+
+    # ---- speak-human-tw 的內容類 pattern（未經配對驗證，只報告）
+    sigs.append(regex_signal(
+        lines, "formula_opener", "公式化開場（時代大帽子）", "C",
+        r"^(?:在當今|在這個[^，。]{0,12}的時代|隨著[^，。]{2,16}(?:快速|迅速|蓬勃)?(?:發展|演進|崛起)|近年來，?隨著)",
+        "speak-human-tw 第 21 種；台灣基準見 baseline",
+        "只報告。真的在論述時代變化、底下接具體數字時放行。", kinds=("prose",)))
+
+    sigs.append(regex_signal(
+        lines, "stance_vacuum", "立場真空", "C",
+        r"各有(?:其)?優缺點|因人而異|見仁見智|取決於(?:多方面|諸多|許多)因素|沒有(?:標準|絕對的)答案|值得(?:我們)?深思",
+        "speak-human-tw 第 9 種：整段沒有判斷",
+        "只報告。作者有給具體選擇條件時放行（SNF-13）。"))
+
+    sigs.append(regex_signal(
+        lines, "sermon_tag", "勸誡反問收尾", "C",
+        r"(?:不是嗎|對吧|你說是不是|何樂而不為)[？?]",
+        "speak-human-tw 第 16 種",
+        "只報告。"))
+
     # ---- 第二層：單模型指紋
     sigs.append(regex_signal(
         lines, "emdash", "破折號", "F",
@@ -179,7 +212,6 @@ def analyze(src: str) -> dict:
     x_items = [
         ("x_numbers", "精確數字", r"\d+(?:\.\d+)?%?", "δ −0.06：話題混雜假象，配對後消失"),
         ("x_connectives", "首先／其次／總之", r"首先|其次|再者|總之|總而言之", "δ +0.02：對當代模型徹底失效"),
-        ("x_yiweizhe", "這意味著／這表明", r"這意味著|這表明|這說明", "人類反而多（三項口徑全反）"),
         ("x_numbered", "序數詞小標題（一、／1.）", r"^(?:[一二三四五六七八九十]、|（[一二三四五六七八九十]）|\d+[.、])", "人類 8.6% vs AI 4.9%，方向反了；AI 愛的是多分節，不是編號"),
         ("x_blacklist", "賦能／閉環／抓手", r"賦能|閉環|抓手|落地|痛點", "δ +0.10：配對同事實後無差（這幾個詞是用語問題，交 zhtw-mcp）"),
     ]

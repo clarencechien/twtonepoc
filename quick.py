@@ -24,12 +24,19 @@ ZHTW = os.environ.get("ZHTW", os.path.join(HERE, "zhtw-mcp"))
 BASE = json.load(open(os.path.join(HERE, "out", "baseline-pre2022.json"), encoding="utf-8"))["baseline"]
 
 NAME = {"contrast": "對舉「不是…而是／，是」", "colon_conclusion": "結論提示冒號", "dunhao_run": "頓號連排",
-        "bridge_opener": "段首承接語", "emdash": "破折號", "semicolon": "分號",
+        "bridge_opener": "段首承接語", "yiweizhe": "這意味著／這表明", "residue": "AI 工具／對話殘留",
+        "formula_opener": "公式化開場", "stance_vacuum": "立場真空", "sermon_tag": "勸誡反問收尾",
+        "emdash": "破折號", "semicolon": "分號",
         "headings_per_k": "小標題密度", "sentence_cv": "句長 CV"}
 HINT = {"contrast": "把判斷直接說出來，保留兩邊的限定詞；澄清誤讀的那幾句可以留，但同一節別連用",
         "colon_conclusion": "刪掉「核心是：」這類提示語，冒號後面的話直接講",
         "dunhao_run": "一句排三個以上就拆句，或只留最重要的兩個",
         "bridge_opener": "段首的「這也解釋了／換句話說」直接刪，段落照樣接得上",
+        "yiweizhe": "台灣慣用「這表示／這代表」，或直接講結論",
+        "residue": "直接刪；連結本體保留",
+        "formula_opener": "刪掉時代帽子，第一句就給只有這篇才有的資訊",
+        "stance_vacuum": "寫出作者實際的選擇與理由；沒有就標（需作者補充），不代編",
+        "sermon_tag": "刪反問，句子停在事實上",
         "emdash": "破折號改句號或逗號",
         "semicolon": "分號串起來的多檔場景拆成兩三句"}
 
@@ -80,9 +87,14 @@ def main(argv):
     S = rep["structure"]
     sigs = {s["key"]: s for s in rep["signals"]}
     severe, notes, skipped = [], [], 0
-    for key in ["contrast", "colon_conclusion", "dunhao_run", "bridge_opener", "emdash", "semicolon"]:
+    for key in ["residue", "contrast", "colon_conclusion", "yiweizhe", "dunhao_run", "bridge_opener",
+                "formula_opener", "stance_vacuum", "sermon_tag", "emdash", "semicolon"]:
         s = sigs[key]
         lv = level(key, s["per_k"])
+        if key == "residue":                                   # 確定性殘留：出現就是嚴重，不看基準
+            lv = "severe" if s["count"] else "skip"
+        if sigs[key]["grade"] == "C" and lv == "severe":       # speak-human-tw 的內容類 pattern 未驗證：最多注意級
+            lv = "note"
         if key in ("emdash", "semicolon") and s["per_k"] <= 2.0:   # 指紋：lieflat 的 >2/千字 才算
             lv = "note" if lv == "severe" else lv
         if S["han"] < 1000 and s["count"] < 2 and lv == "severe":  # 短文密度會爆，單次命中不算嚴重

@@ -30,8 +30,9 @@ if not files:
     sys.exit(f"{corpus_dir} 裡沒有語料。全文因版權不入庫；照 corpus/SOURCES.md 的 URL 抓回存成 .md 再跑。"
              "\n現成的基準值在 out/baseline-pre2022.json，quick.py 直接用那份。")
 rows = {os.path.basename(f): run(f) for f in files}
-keys = ["contrast", "colon_conclusion", "dunhao_run", "bridge_opener", "emdash", "semicolon",
-        "x_numbers", "x_connectives", "x_yiweizhe", "sentence_cv", "headings_per_k"]
+keys = ["contrast", "colon_conclusion", "dunhao_run", "bridge_opener", "yiweizhe", "residue",
+        "formula_opener", "stance_vacuum", "sermon_tag", "emdash", "semicolon",
+        "x_numbers", "x_connectives", "sentence_cv", "headings_per_k"]
 base = {k: {"median": pct([r[k] for r in rows.values()], .5),
             "p75": pct([r[k] for r in rows.values()], .75),
             "max": max(r[k] for r in rows.values() if r[k] is not None)} for k in keys}
